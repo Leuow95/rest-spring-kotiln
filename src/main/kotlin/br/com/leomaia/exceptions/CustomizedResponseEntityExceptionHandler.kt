@@ -1,4 +1,4 @@
-package br.com.leomaia.restspringkotiln.exceptions
+package br.com.leomaia.exceptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

@@ -1,4 +1,4 @@
-package br.com.leomaia.restspringkotiln.exceptions
+package br.com.leomaia.exceptions
 
 import java.util.Date
 

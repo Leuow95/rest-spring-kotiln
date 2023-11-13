@@ -1,4 +1,4 @@
-package br.com.leomaia.restspringkotiln
+package br.com.leomaia
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
