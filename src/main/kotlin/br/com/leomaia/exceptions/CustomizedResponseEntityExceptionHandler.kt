@@ -1,5 +1,6 @@
 package br.com.leomaia.exceptions
 
+import br.com.leomaia.exceptions.handler.ResourceNotFoundException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -28,8 +29,8 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
 
     }
 
-    @ExceptionHandler(UnsupportedMathOperationException::class)
-    fun handleBadRequestExceptions(
+    @ExceptionHandler(ResourceNotFoundException::class)
+    fun handleResourceNotFoundExceptions(
         ex: Exception, request: WebRequest)
         : ResponseEntity<ExceptionResponse>{
         val exceptionResponse = ExceptionResponse(
@@ -37,7 +38,7 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
             ex.message ?: "Exception",
             request.getDescription(false)
         )
-        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND)
 
     }
 }
