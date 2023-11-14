@@ -1,9 +1,8 @@
 package br.com.leomaia.controller
 
 
-import br.com.leomaia.model.Person
+import br.com.leomaia.data.vo.v1.PersonVO
 import br.com.leomaia.services.PersonService
-import org.apache.coyote.Response
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -16,7 +15,7 @@ class PersonController {
     private lateinit var personService: PersonService
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getAllPerson(): List<Person>{
+    fun getAllPerson(): List<PersonVO>{
         return personService.findAll()
     }
 
@@ -24,18 +23,18 @@ class PersonController {
         produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getPersonById(@PathVariable(value = "id") id: Long,
 
-    ): Person {
+    ): PersonVO {
     return personService.findById(id)
     }
 
     @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun createPerson(@RequestBody person: Person):Person{
+    fun createPerson(@RequestBody person: PersonVO): PersonVO {
         return personService.create(person)
     }
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun updatePerson(@RequestBody person: Person):Person {
+    fun updatePerson(@RequestBody person: PersonVO): PersonVO {
         return personService.update(person)
     }
 

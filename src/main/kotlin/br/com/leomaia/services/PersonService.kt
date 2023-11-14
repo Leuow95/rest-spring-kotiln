@@ -4,9 +4,7 @@ import br.com.leomaia.exceptions.handler.ResourceNotFoundException
 import br.com.leomaia.model.Person
 import br.com.leomaia.repository.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Repository
 import org.springframework.stereotype.Service
-import java.util.concurrent.atomic.AtomicLong
 import java.util.logging.Logger
 
 @Service
@@ -23,14 +21,14 @@ class PersonService {
         return repository.findAll()
     }
 
-    fun findById(id: Long): Person{
+    fun findById(id: Long): Person {
         logger.info("Finding one person!")
 
         return repository.findById(id)
             .orElseThrow{ResourceNotFoundException("No records found by this id")}
     }
 
-    fun create(person: Person): Person{
+    fun create(person: Person): Person {
         logger.info("Creating one person with name ${person.firstName}")
         return repository.save(person)
     }
