@@ -14,29 +14,29 @@ class PersonController {
     @Autowired
     private lateinit var personService: PersonService
 
-//    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-//    fun getAllPerson(): List<PersonVO>{
-//        return personService.findAll()
-//    }
-//
-//    @GetMapping(value= ["/{id}"],
-//        produces = [MediaType.APPLICATION_JSON_VALUE])
-//    fun getPersonById(@PathVariable(value = "id") id: Long,
-//
-//    ): PersonVO {
-//    return personService.findById(id)
-//    }
-//
-//    @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
-//        produces = [MediaType.APPLICATION_JSON_VALUE])
-//    fun createPerson(@RequestBody person: PersonVO): PersonVO {
-//        return personService.create(person)
-//    }
-//    @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
-//        produces = [MediaType.APPLICATION_JSON_VALUE])
-//    fun updatePerson(@RequestBody person: PersonVO): PersonVO {
-//        return personService.update(person)
-//    }
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getAllPerson(): List<PersonVO>{
+        return personService.findAll()
+    }
+
+    @GetMapping(value= ["/{id}"],
+        produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getPersonById(@PathVariable(value = "id") id: Long,
+
+    ): PersonVO {
+    return personService.findById(id)
+    }
+
+    @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun createPerson(@RequestBody person: PersonVO): PersonVO {
+        return personService.create(person)
+    }
+    @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun updatePerson(@RequestBody person: PersonVO): PersonVO {
+        return personService.update(person)
+    }
 
     @DeleteMapping(value = ["/{id}"],
         produces = [MediaType.APPLICATION_JSON_VALUE])
