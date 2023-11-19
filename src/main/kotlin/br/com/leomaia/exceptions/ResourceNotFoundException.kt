@@ -1,4 +1,4 @@
-package br.com.leomaia.exceptions.handler
+package br.com.leomaia.exceptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

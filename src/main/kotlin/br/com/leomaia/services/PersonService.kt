@@ -2,8 +2,9 @@ package br.com.leomaia.services
 
 import br.com.leomaia.controller.PersonController
 import br.com.leomaia.data.vo.v1.PersonVO
+import br.com.leomaia.exceptions.RequiredObjectIsNullException
 import br.com.leomaia.data.vo.v2.PersonVO as PersonVOV2
-import br.com.leomaia.exceptions.handler.ResourceNotFoundException
+import br.com.leomaia.exceptions.ResourceNotFoundException
 import br.com.leomaia.mapper.DozerMapper
 import br.com.leomaia.mapper.custom.PersonMapper
 import br.com.leomaia.model.Person
@@ -48,7 +49,8 @@ class PersonService {
         return personVO
     }
 
-    fun create(person: PersonVO): PersonVO {
+    fun create(person: PersonVO?): PersonVO {
+        if(person==null) throw RequiredObjectIsNullException()
         logger.info("Creating one person with name ${person.firstName}")
         val entity: Person = DozerMapper.parseObject(person, Person::class.java)
 
@@ -64,10 +66,12 @@ class PersonService {
 
         return mapper.mapEntityToVO(repository.save(entity))
     }
-    fun update(person: PersonVO): PersonVO {
+    fun update(person: PersonVO?): PersonVO {
+        if(person==null) throw RequiredObjectIsNullException()
+
         logger.info("Updating person with ID: ${person.id}")
         val entity = repository.findById(person.id)
-            .orElseThrow{ResourceNotFoundException("No records found by this id")}
+            .orElseThrow{ ResourceNotFoundException("No records found by this id") }
 
         entity.firstName = person.firstName
         entity.lastName = person.lastName
@@ -83,7 +87,7 @@ class PersonService {
         logger.info("Deleting person with ID: $id")
 
         val person = repository.findById(id)
-            .orElseThrow{ResourceNotFoundException("No records found with this id!")}
+            .orElseThrow{ ResourceNotFoundException("No records found with this id!") }
 
         repository.delete(person)
     }
