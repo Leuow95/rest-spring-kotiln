@@ -11,7 +11,7 @@ class Book {
     val id: Long = 0
 
     @Column(length = 150, nullable = false)
-    val autor: String = ""
+    val author: String = ""
 
     @Column(name = "launch_date",nullable = false)
     val launchDate: Date = Date()
