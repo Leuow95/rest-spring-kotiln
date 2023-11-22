@@ -58,7 +58,7 @@ class PersonService {
         val personVO: PersonVO = DozerMapper.parseObject(person, PersonVO::class.java)
         val withSelfRef = linkTo(PersonController::class.java).slash(person.id).withSelfRel()
         personVO.add(withSelfRef)
-        return  personVO
+        return personVO
     }
     fun createV2(person: PersonVOV2): PersonVOV2 {
         logger.info("Creating one person with name ${person.firstName}")
