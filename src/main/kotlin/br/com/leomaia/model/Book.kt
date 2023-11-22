@@ -8,17 +8,17 @@ import java.util.Date
 class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
+    var id: Long = 0
 
     @Column(length = 150, nullable = false)
-    val author: String = ""
+    var author: String = ""
 
     @Column(name = "launch_date",nullable = false)
-    val launchDate: Date = Date()
+    var launchDate: Date = Date()
 
     @Column(nullable = false)
-    val price: Double = 0.0
+    var price: Double = 0.0
 
     @Column(nullable = false, length = 150)
-    val title: String = ""
+    var title: String = ""
 }
