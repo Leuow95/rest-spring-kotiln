@@ -5,12 +5,18 @@ import br.com.leomaia.exceptions.ResourceNotFoundException
 import br.com.leomaia.mapper.DozerMapper
 import br.com.leomaia.repository.BookRepository
 import org.springframework.beans.factory.annotation.Autowired
-import java.awt.print.Book
+import org.springframework.stereotype.Service
+
 import java.util.logging.Logger
 
+@Service
 class BookService {
+
     @Autowired
     private lateinit var repository: BookRepository
+
+//    @Autowired
+//    private lateinit var mapper: BookMapper
 
     private val logger = Logger.getLogger(BookService::class.java.name)
 
@@ -25,7 +31,7 @@ class BookService {
     fun findById(id: Long): BookVO{
         logger.info("Finding a book")
 
-        val book = repository.findById(id)
+        val book = repository.findById(id).get()
 
         return DozerMapper.parseObject(book, BookVO::class.java)
     }
