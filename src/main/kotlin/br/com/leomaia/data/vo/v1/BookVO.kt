@@ -12,15 +12,15 @@ import java.util.*
 @JsonPropertyOrder("id", "title", "author", "price", "launch_date" )
 data class BookVO (
 
-    val id: Long = 0,
+    var id: Long = 0,
 
-    val author: String = "",
+    var author: String = "",
 
     @field:JsonProperty("launch_date")
-    val launchDate: Date = Date(),
+    var launchDate: Date = Date(),
 
-    val price: Double = 0.0,
+    var price: Double = 0.0,
 
-    val title: String = ""
+    var title: String = ""
 
 ) : RepresentationModel<BookVO>()
