@@ -17,5 +17,4 @@ class Permission: GrantedAuthority {
     //getter
     override fun getAuthority() = description!!
 
-
 }
