@@ -1,6 +1,7 @@
 package br.com.leomaia.exceptions.handler
 
 import br.com.leomaia.exceptions.ExceptionResponse
+import br.com.leomaia.exceptions.InvalidJwtAuthException
 import br.com.leomaia.exceptions.RequiredObjectIsNullException
 import br.com.leomaia.exceptions.ResourceNotFoundException
 import org.springframework.http.HttpStatus
@@ -45,6 +46,18 @@ class CustomizedResponseEntityExceptionHandler: ResponseEntityExceptionHandler()
 
     @ExceptionHandler(RequiredObjectIsNullException::class)
     fun handleBadRequestExceptions(
+        ex: Exception, request: WebRequest)
+            : ResponseEntity<ExceptionResponse>{
+        val exceptionResponse = ExceptionResponse(
+            Date(),
+            ex.message ?: "Exception",
+            request.getDescription(false)
+        )
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(InvalidJwtAuthException::class)
+    fun handleInvalidJwtAuthExceptions(
         ex: Exception, request: WebRequest)
             : ResponseEntity<ExceptionResponse>{
         val exceptionResponse = ExceptionResponse(
