@@ -1,5 +1,10 @@
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,http://br.com.leomaia
+security:
+  jwt:
+    token:
+    secret-key: ekwa7tmo
+    expire-length: 3600000
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
