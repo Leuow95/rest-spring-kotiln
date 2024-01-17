@@ -1,14 +1,22 @@
 package br.com.leomaia.security.jwt
 
 import br.com.leomaia.data.vo.v1.TokenVO
+import br.com.leomaia.exceptions.InvalidJwtAuthException
 import com.auth0.jwt.JWT
+import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
+import com.auth0.jwt.interfaces.DecodedJWT
 import jakarta.annotation.PostConstruct
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.stereotype.Service
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
+import java.lang.Exception
 import java.util.Base64
 import java.util.Date
 
@@ -49,7 +57,7 @@ class JwtTokenProvider {
         );
     }
 
-    private fun getAccessToken(userName: String, roles: List<String>?, now: Date,validity: Date): Any {
+    private fun getAccessToken(userName: String, roles: List<String>?, now: Date,validity: Date): String {
 
     val issuerUrl: String = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
 
@@ -63,7 +71,43 @@ class JwtTokenProvider {
     }
 
 
-    private fun getRefreshToken(userName: String, roles: List<String>?, now: Date): Any {
+    private fun getRefreshToken(userName: String, roles: List<String>?, now: Date): String {
+        val validityRefreshToken = Date(now.time + validityInMilliseconds *3)
+        return JWT.create()
+            .withClaim("roles", roles)
+            .withExpiresAt(validityRefreshToken)
+            .sign(algorithm)
+            .trim()
+    }
+    
+    fun getAuthentication(token: String): Authentication{
+        val decodedJWT: DecodedJWT = decodedToken(token)
+        val userDetails: UserDetails = userDetailsService.loadUserByUsername(decodedJWT.subject)
+        return UsernamePasswordAuthenticationToken(userDetails, "", userDetails.authorities)
+    }
+
+    private fun decodedToken(token: String): DecodedJWT {
+        val algorithm = Algorithm.HMAC256(secretKey.toByteArray())
+        val verifier: JWTVerifier = JWT.require(algorithm).build()
+        return verifier.verify(token)
+    }
+
+    fun resolveToken(req: HttpServletRequest): String?{
+        val bearerToken = req.getHeader("Authorization")
+        if(!bearerToken.isNullOrBlank() && bearerToken.startsWith("Bearer")){
+            return bearerToken.substring("Bearer".length)
+        }
+        return null
+    }
+
+    fun validateToken(token: String):Boolean{
+        val decodedJWT = decodedToken(token)
+        try {
+            if(decodedJWT.expiresAt.before(Date())) return false
+            return true
+        } catch (e: Exception){
+            throw InvalidJwtAuthException("Expired of invalid JWT token")
+        }
 
     }
 
